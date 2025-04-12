@@ -139,7 +139,7 @@ kubectl port-forward svc/kibana 5601:5601
 
 ## 🧪 Testing Guide
 
-This project uses `pytest` to run unit, integration, and end-to-end tests for each microservice. All test files are in each service's `tests/` folder.
+This project uses `pytest` to run unit, integration, and end-to-end tests for each microservice. All test files are in the test/ folder.
 
 ### 🧰 Prerequisites
 
