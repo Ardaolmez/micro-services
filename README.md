@@ -40,7 +40,7 @@ This system acts like a pick-up service. Customers can browse a menu, place book
 | Framework     | Flask                  |
 | Database      | SQLite                 |
 | Container     | Docker                 |
-| Orchestration | Kubernetes (Minikube)  |
+| Orchestration | Kubernetes-Minikube  |
 | CI/CD         | GitHub Actions         |
 | Monitoring    | Prometheus, Grafana    |
 | Logging       | EFK Stack              |
@@ -53,10 +53,10 @@ This system acts like a pick-up service. Customers can browse a menu, place book
 - Dynamic driver availability and auto assignment
 - Confirm service with internal service calls
 - RESTful architecture with internal DNS and external NodePort access
-- Horizontal Pod Autoscaling (HPA) for `admin`
+- Horizontal Pod Autoscaling-HPA for `admin`
 - CI/CD pipeline via GitHub Actions
-- Centralized monitoring (Grafana)
-- Centralized logging (EFK stack)
+- Centralized monitoring Grafana-Prometheus
+- Centralized logging with EFK stack
 - network policy
 
 ---
@@ -123,7 +123,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack
 kubectl port-forward service/prometheus-grafana 3000:80
 ```
 
-Access: [http://localhost:3000](http://localhost:3000)
+Access: http://localhost:3000
 User: `admin` / Password: `prom-operator`
 
 ### EFK Stack (via Helm)
@@ -152,8 +152,6 @@ Workflow is defined in `.github/workflows/ci.yml`
 ## ✨ Optional Enhancements
 - Network Policies (e.g., restrict `menu` -> `driver` access)
 - Service Discovery using Kubernetes DNS
-- Centralized logging dashboard using Kibana
-
 ---
 
 
