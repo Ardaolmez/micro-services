@@ -10,50 +10,34 @@ jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: group3
-          POSTGRES_PASSWORD: group3pass
-          POSTGRES_DB: appointment_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Install root dependencies
-        run: |
-          pip install --upgrade pip
-          pip install pytest requests-mock
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: Run tests and build for all services
-        run: |
-          SERVICES=("patient-service" "doctor-service" "appointment-service" "notification-service")
+    - name: Install Python testing dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest requests
 
-          for SERVICE in "${SERVICES[@]}"; do
-            echo "🔧 Processing $SERVICE"
+    - name: Run tests and build images
+      run: |
+        SERVICES=("admin" "booking" "confirm" "driver" "menu")
+        for SERVICE in "${SERVICES[@]}"; do
+          echo "🔍 Testing $SERVICE"
+          if [ -f "$SERVICE/tests/test_main.py" ]; then
+            PYTHONPATH=$SERVICE pytest $SERVICE/tests --maxfail=1 --disable-warnings -v
+          else
+            echo "⚠️ No tests found for $SERVICE"
+          fi
 
-            pip install -r $SERVICE/requirements.txt
-
-            echo "▶️ Running tests for $SERVICE"
-            PYTHONPATH=$SERVICE pytest $SERVICE/tests --maxfail=3 --disable-warnings -v
-
-            echo "🐳 Building Docker image for $SERVICE"
-            docker build -t $SERVICE:latest ./$SERVICE
-
-            echo "✅ Finished $SERVICE"
-            echo "-------------------------------------"
-          done
+          echo "🐳 Building Docker image for $SERVICE"
+          docker build -t $SERVICE:latest ./$SERVICE
+        done
