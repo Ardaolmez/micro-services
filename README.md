@@ -1,6 +1,6 @@
 # Microservices Project – Final Deployment
 
-A fully containerized, microservices-based system built with Flask and SQLite. Each service is designed to run independently and communicate using RESTful APIs. The project is deployed on a Kubernetes (Minikube) cluster with integrated monitoring via Prometheus and Grafana and centralized logging using Elasticsearch, Fluentd, and Kibana (EFK).
+A fully containerized, microservices-based system built with Flask and SQLite. Each service is designed to run independently and communicate using RESTful APIs. The project is deployed on a Kubernetes Minikube cluster with integrated monitoring via Prometheus and Grafana and centralized logging using Elasticsearch, Fluentd, and Kibana.
 
 ---
 
