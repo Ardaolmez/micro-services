@@ -18,7 +18,7 @@ A fully containerized, microservices-based system built with Flask and SQLite. E
 ---
 
 ##  Overview
-This system simulates a food ordering and delivery platform with multiple services. Customers can browse a menu, place bookings, and confirm order pickups. Drivers are managed and assigned dynamically based on availability.
+This system acts like a pick-up service. Customers can browse a menu, place bookings, and confirm order pickups. Drivers are managed and assigned dynamically based on availability.
 
 ---
 
@@ -57,7 +57,7 @@ This system simulates a food ordering and delivery platform with multiple servic
 - CI/CD pipeline via GitHub Actions
 - Centralized monitoring (Grafana)
 - Centralized logging (EFK stack)
-- Role-based access control and network policy enforcement
+- network policy
 
 ---
 
@@ -72,8 +72,7 @@ This system simulates a food ordering and delivery platform with multiple servic
 
 ### Clone the Project
 ```bash
-git clone <your-repo-url>
-cd micro
+git clone https://github.com/Ardaolmez/micro-service
 ```
 
 ---
@@ -87,7 +86,6 @@ Each service follows the same design pattern:
 ├── routes.py        # API routes
 ├── requirements.txt # Dependencies
 ├── Dockerfile       # Container configuration
-├── tests/           # Unit and integration tests
 ```
 
 ---
@@ -96,7 +94,7 @@ Each service follows the same design pattern:
 
 ### Start Minikube
 ```bash
-minikube start --cpus=4 --memory=8192
+minikube start --driver=docker
 ```
 
 ### Load Docker images into Minikube
@@ -152,13 +150,11 @@ Workflow is defined in `.github/workflows/ci.yml`
 ---
 
 ## ✨ Optional Enhancements
-- Role-Based Access Control (RBAC)
 - Network Policies (e.g., restrict `menu` -> `driver` access)
 - Service Discovery using Kubernetes DNS
 - Centralized logging dashboard using Kibana
 
 ---
 
-This project demonstrates a complete modern DevOps-ready architecture built on microservices principles and designed for reliability, observability, and scalability.
 
 
