@@ -13,6 +13,7 @@ A fully containerized, microservices-based system built with Flask and SQLite. E
 - Microservice Structure
 - Deployment
 - Monitoring & Logging
+- Testing
 - CI/CD
 
 ---
@@ -135,6 +136,36 @@ kubectl port-forward svc/kibana 5601:5601
 ```
 
 ---
+
+## 🧪 Testing Guide
+
+This project uses `pytest` to run unit, integration, and end-to-end tests for each microservice. All test files are in each service's `tests/` folder.
+
+### 🧰 Prerequisites
+
+Make sure you have the following installed:
+
+- Python 3.11+
+- `pytest` and `request`  installed via `pip`
+- Minikube is running
+- All services are deployed via:
+
+```bash
+kubectl apply -f k8s/
+kubectl port-forward service/menu 5002:5002
+kubectl port-forward service/driver 5001:5001
+kubectl port-forward service/booking 5003:5003
+kubectl port-forward service/confirm 5004:5004
+kubectl port-forward service/admin 5000:5000
+
+```
+Then, you can open the test file and run the command
+```bash
+pytest
+```
+You will see the result of the tests.
+
+
 
 ## 🛠️ CI/CD
 
