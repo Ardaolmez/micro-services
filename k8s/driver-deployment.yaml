@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: driver-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: driver
+  template:
+    metadata:
+      labels:
+        app: driver
+    spec:
+      containers:
+        - name: driver
+          image: micro-driver:latest
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: app-config  #
+
+          env:
+            - name: INTERNAL_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: internal-key

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: confirm-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: confirm
+  template:
+    metadata:
+      labels:
+        app: confirm
+    spec:
+      containers:
+        - name: confirm
+          image: micro-confirm:latest
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 5004
+          envFrom:
+            - configMapRef:
+                name: app-config  #
+
+          env:
+            - name: INTERNAL_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: internal-key

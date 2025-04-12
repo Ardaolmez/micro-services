@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  admin:
+    build: ./admin
+    ports:
+      - "5000:5000"
+    networks:
+      - pickup-service
+    volumes:
+      - admin-db:/app/instance       
+    depends_on:
+      - driver
+      - menu
+
+  driver:
+    build: ./driver
+    ports:
+      - "5001:5001"
+    networks:
+      - pickup-service
+    volumes:
+      - driver-db:/app/instance
+
+  menu:
+    build: ./menu
+    ports:
+      - "5002:5002"
+    networks:
+      - pickup-service
+    volumes:
+      - menu-db:/app/instance
+  booking:
+    build: ./booking
+    ports:
+      - "5003:5003"
+    networks:
+      - pickup-service
+    volumes:
+      - booking-db:/app/instance
+  confirm:
+    build: ./confirm
+    ports:
+      - "5004:5004"
+    networks:
+      - pickup-service
+
+
+
+networks:
+  pickup-service:
+    driver: bridge
+
+volumes:
+  admin-db:
+  driver-db:
+  menu-db:
+  booking-db:
+
+
+

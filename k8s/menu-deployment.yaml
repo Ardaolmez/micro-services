@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: menu-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: menu
+  template:
+    metadata:
+      labels:
+        app: menu
+    spec:
+      containers:
+        - name: menu
+          image: micro-menu:latest
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 5002
+          envFrom:
+            - configMapRef:
+                name: app-config  #
+
+          env:
+            - name: INTERNAL_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: internal-key
